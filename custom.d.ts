@@ -1,13 +1,10 @@
-import express from 'express';
+import { Request } from 'express';
 
-// Extender la interfaz Request para incluir la propiedad user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id?: string;
-        role?: string;
-      };
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: {
+      id: string;
+      role: string;
+    };
   }
 }

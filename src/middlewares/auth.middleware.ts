@@ -1,41 +1,34 @@
-import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { Request, Response, NextFunction } from 'express';
+import jwt,{ JwtPayload } from 'jsonwebtoken';
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
+interface CustomRequest extends Request {
+  user?: {
+    id: string;
+    role: string;
+  };
+}
+
+const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction): void => {
+  const token = req.headers['authorization']?.split(' ')[1];
 
   if (!token) {
-    res.status(403).json({ message: "No token provided" });
+    res.status(403).json({ message: 'No token provided' });
     return;
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
-    // Verificar si el token decodificado es un objeto que contiene las propiedades esperadas
-    if (typeof decoded === "object" && "id" in decoded && "role" in decoded) {
-      // Hacer el cast de decoded como un JwtPayload con id y role
+    if (typeof decoded === 'object' && 'id' in decoded && 'role' in decoded) {
       const user = decoded as JwtPayload & { id: string; role: string };
-      // Asignar user.id y user.role a req.user
       req.user = { id: user.id, role: user.role };
       next();
     } else {
-      res.status(401).send({ message: "Token inválido" });
-      return;
+      res.status(401).json({ message: 'Token inválido' });
     }
   } catch (err) {
-    res.status(401).send({ message: "Token inválido" });
-    return;
+    res.status(401).json({ message: 'Token inválido' });
   }
-
-  // jwt.verify(token, process.env.JWT_SECRET!, (err, decoded) => {
-  //   if (err) {
-  //     return res.status(401).json({ message: 'Token inválido' });
-  //   }
-
-  //   req.user = decoded;
-  //   next();
-  // });
 };
 
 export default authMiddleware;

@@ -5,9 +5,9 @@ import { verifyRole } from '../middlewares/verifyRole.middleware'; // Middleware
 
 const userRouter = Router();
 
-userRouter.post('/', authMiddleware, verifyRole('admin'), createUser);
-userRouter.put('/:id', authMiddleware, verifyRole('admin'), updateUser);
-userRouter.delete('/:id', authMiddleware, verifyRole('admin'), deleteUser);
-userRouter.get('/', authMiddleware, verifyRole('admin'), getUsers);
+userRouter.post('/createUser', authMiddleware, verifyRole('admin'), createUser);
+userRouter.put('/updateUser/:id', authMiddleware, verifyRole('admin'), updateUser);
+userRouter.delete('/deletedUser/:id', authMiddleware, verifyRole('admin'), deleteUser);
+userRouter.get('/getAllUsers', authMiddleware, verifyRole('admin'), getUsers);
 
 export default userRouter;
