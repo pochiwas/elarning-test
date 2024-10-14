@@ -21,11 +21,10 @@ app.use(cors());
 
 // Rutas
 
-app.use("/api", () => {
-  app.use("/auth", authRoutes);
-  app.use("/users", userRoutes);
-  app.use("/courses", courseRoutes);
-});
+  app.use("/api/auth", authRoutes);
+  app.use("/api/users", userRoutes);
+  app.use("/api/courses", courseRoutes);
+
 
 // Conectar a la base de datos y arrancar el servidor
 const startServer = async () => {

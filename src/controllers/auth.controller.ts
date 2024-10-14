@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
-// Login de usuario
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -38,15 +37,11 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-// Registrar un nuevo usuario (opcional si se requiere)
 export const registerUser = async (req: Request, res: Response) => {
   const { name, email, password, role } = req.body;
 
   try {
-    // Encriptar la contraseña
     const hashedPassword = bcrypt.hashSync(password, 10);
-
-    // Crear un nuevo usuario
     const newUser = await User.create({
       name,
       email,

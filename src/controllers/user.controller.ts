@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import Course from '../models/Course';
-import UserCourse from '../models/UserCourse';
 import bcrypt from 'bcrypt';
 
 // Crear un usuario
@@ -35,15 +34,15 @@ const getUsers = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, email, password, role } = req.body;
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
+  
   try {
     const user = await User.findByPk(id);
+  
     if (!user) {
        res.status(404).json({ message: 'Usuario no encontrado' });
        return
     }
-
+    const hashedPassword = password ? bcrypt.hashSync(password, 10) : user.password;
     user.name = name;
     user.email = email;
     user.password = hashedPassword;
