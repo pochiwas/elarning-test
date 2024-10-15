@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import sequelize from "./config/database";
+import {seedDatabase} from './seeders/initdb.seeder'
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import courseRoutes from "./routes/course.routes";
@@ -31,10 +32,9 @@ const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log("Conexión a la base de datos exitosa.");
-
     // Sincroniza los modelos con la base de datos
-    await sequelize.sync({ force: false }); // Cambiar a true si quieres recrear las tablas en cada inicio
-
+    await sequelize.sync({ force: false });
+    await seedDatabase();
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en http://localhost:${PORT}`);
@@ -45,4 +45,3 @@ const startServer = async () => {
 };
 
 startServer();
-export default app;

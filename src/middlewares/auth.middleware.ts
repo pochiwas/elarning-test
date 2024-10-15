@@ -9,7 +9,7 @@ interface CustomRequest extends Request {
 }
 
 const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction): void => {
-  const token = req.headers['authorization']?.split(' ')[1];
+  const token = req.headers['authorization'];
 
   if (!token) {
     res.status(403).json({ message: 'No token provided' });
