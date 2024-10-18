@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import Course from '../models/Course';
 import bcrypt from 'bcrypt';
 
 // Crear un usuario
@@ -21,11 +20,12 @@ const createUser = async (req: Request, res: Response) => {
 // Obtener todos los usuarios
 const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.findAll({ include: Course });
+    const users = await User.findAll();
     res.status(200).json(users);
     return;
   } catch (error) {
-    res.status(500).json({ message: 'Error al obtener los usuarios', error });
+    res.status(500).send({ message: 'Error al obtener los usuarios',
+                               error : error });
     return;
   }
 };
@@ -69,7 +69,7 @@ const deleteUser = async (req: Request, res: Response) => {
     }
 
     await user.destroy();
-    res.status(204).send();
+    res.status(200).json({message:'Usuario eliminado'});
     return;
   } catch (error) {
     res.status(500).json({ message: 'Error al eliminar el usuario', error });
