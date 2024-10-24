@@ -39,7 +39,7 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en http://localhost:${PORT}`);
     });
-  } catch (error) {
+  } catch (error:any) {
     console.error("Error al conectar a la base de datos:", error);
   }
 };
