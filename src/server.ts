@@ -12,7 +12,6 @@ import courseRoutes from "./routes/course.routes";
 dotenv.config();
 
 const app: Application = express();
-
 // Middleware para parsear JSON
 app.use(express.json());
 app.use(bodyParser.json());
@@ -21,12 +20,9 @@ app.use(bodyParser.json({ type: "application/*+json" }));
 app.use(cors());
 
 // Rutas
-
   app.use("/api/auth", authRoutes);
   app.use("/api/users", userRoutes);
   app.use("/api/courses", courseRoutes);
-
-
 // Conectar a la base de datos y arrancar el servidor
 const startServer = async () => {
   try {

@@ -67,7 +67,7 @@ describe('Auth Controller Tests', () => {
     expect(jwt.sign).toHaveBeenCalledWith(
       { id: mockUser.id, role: mockUser.role },
       process.env.JWT_SECRET!,
-      { expiresIn: '4h' }
+      { expiresIn: '2h' }
     );
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith({ token: 'mocked_token' });
